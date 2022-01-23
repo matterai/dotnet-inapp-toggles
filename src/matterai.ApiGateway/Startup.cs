@@ -22,7 +22,12 @@ namespace matterai.ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+            services.AddOptions<RedisOptions>()
+                .Configure(o =>
+                {
+                    o.Host = "localhost";
+                    o.Port = 6379;
+                });
             services.AddScoped<Switch>();
             services.AddScoped<CustomService>();
             services.AddSwaggerGen(c =>

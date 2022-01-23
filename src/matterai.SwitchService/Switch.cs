@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace matterai.SwitchService
@@ -7,9 +8,10 @@ namespace matterai.SwitchService
     {
         private readonly IConnectionMultiplexer _connectionMultiplexer;
         
-        public Switch(IConnectionMultiplexer connectionMultiplexer)
+        public Switch(IOptionsSnapshot<RedisOptions> options)
         {
-            _connectionMultiplexer = connectionMultiplexer;
+            var o = options.Value;
+            _connectionMultiplexer = ConnectionMultiplexer.Connect($"{o.Host}:{o.Port}");
         }
 
         public async Task<bool> IsEnabled(string keyName)
