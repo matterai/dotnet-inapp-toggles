@@ -1,3 +1,4 @@
+using matterai.SwitchService;
 using matterai.TestService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace matterai.ApiGateway
 {
@@ -20,6 +22,8 @@ namespace matterai.ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+            services.AddScoped<Switch>();
             services.AddScoped<CustomService>();
             services.AddSwaggerGen(c =>
             {

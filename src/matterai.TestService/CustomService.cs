@@ -1,11 +1,26 @@
-﻿namespace matterai.TestService
+﻿using System.Threading.Tasks;
+using matterai.SwitchService;
+
+namespace matterai.TestService
 {
     public class CustomService
     {
-        public CustomService()
+        private readonly Switch _switch;
+
+        private const string MyToggle = "my_toggle";
+        
+        public CustomService(Switch @switch)
         {
+            _switch = @switch;
         }
 
-        public string GetGreetings(string name) => $"Hey, {name}";
+        public async Task<string> GetGreetings(string name)
+        {
+            var isEnabled = await _switch.IsEnabled(MyToggle);
+                
+            return isEnabled 
+                ? $"Hey, {name}" 
+                : $"Fuck you, {name}";
+        }
     }
 }

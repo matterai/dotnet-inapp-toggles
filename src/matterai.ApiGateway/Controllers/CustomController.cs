@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using matterai.TestService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,6 @@ namespace matterai.ApiGateway.Controllers
             _service = service;
         }
 
-        public string Get(string name) => _service.GetGreetings(name);
+        public Task<string> Get(string name) => _service.GetGreetings(name);
     }
 }
