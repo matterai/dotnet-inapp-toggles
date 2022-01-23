@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
@@ -19,6 +20,23 @@ namespace matterai.SwitchService
             var db = _connectionMultiplexer.GetDatabase();
             var value = await db.StringGetAsync(keyName);
             return !value.IsNullOrEmpty;
+        }
+
+        public async Task<bool> IsEnabled(string keyName, int userId)
+        {
+            var db = _connectionMultiplexer.GetDatabase();
+            var list = await db.ListRangeAsync(keyName);
+
+            var isEnabled = false;
+            foreach (var value in list)
+            {
+                if (value.HasValue && value == userId)
+                {
+                    isEnabled = true;
+                }
+            }
+
+            return isEnabled;
         }
     }
 }

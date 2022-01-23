@@ -8,6 +8,7 @@ namespace matterai.TestService
         private readonly Switch _switch;
 
         private const string MyToggle = "my_toggle";
+        private const string ListToggle = "users_toggle";
         
         public CustomService(Switch @switch)
         {
@@ -16,7 +17,8 @@ namespace matterai.TestService
 
         public async Task<string> GetGreetings(string name)
         {
-            var isEnabled = await _switch.IsEnabled(MyToggle);
+            var userId = 33;
+            var isEnabled = await _switch.IsEnabled(ListToggle, userId);
                 
             return isEnabled 
                 ? $"Hey, {name}! How are you?" 
