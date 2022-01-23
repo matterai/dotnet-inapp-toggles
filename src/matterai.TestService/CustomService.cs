@@ -19,8 +19,8 @@ namespace matterai.TestService
             var isEnabled = await _switch.IsEnabled(MyToggle);
                 
             return isEnabled 
-                ? $"Hey, {name}" 
-                : $"Fuck you, {name}";
+                ? $"Hey, {name}! How are you?" 
+                : $"Fuck you, {name}!";
         }
     }
 }
